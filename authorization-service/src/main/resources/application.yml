@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    username: piter
+    password: piter
+    url: jdbc:h2:mem:customers_test_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+
+
+logging:
+  level:
+    root: info
+    org.springframework.web: info
+    org.springframework.security: debug
+    org.springframework.security.oauth2: debug
+    org.springframework.data.redis: debug
+
+authorization:
+  env:
+    frontend:
+      host: "http://127.0.0.1:4200"
+    oauth2:
+      redirect: ${authorization.env.frontend.host}/callback
+      logout-redirect: ${authorization.env.frontend.host}/home
+    jwk:
+      uri: "${authorization.env.api.public-url}/oauth2/jwks"
+    api:
+      path-base: /api/v1/authorization
+      public-url: "http://localhost:${server.port}"
+
+server:
+  port: 9090
