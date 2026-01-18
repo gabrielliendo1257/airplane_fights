@@ -1,10 +1,9 @@
-package com.gc.reactive.app.flight.flight.infrastructure.mapper;
+package com.gc.reactive.app.flight.flight.infrastructure.persistence.segments;
 
 import com.gc.reactive.app.flight.flight.domain.vos.FlightSegmentData;
-import com.gc.reactive.app.flight.flight.infrastructure.entities.FlightSegmentJpaEntity;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface FlightSegmentMapper
 {
     FlightSegmentData toModel(FlightSegmentJpaEntity flightSegmentJpaEntity);

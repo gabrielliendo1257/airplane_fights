@@ -1,6 +1,6 @@
 package com.gc.reactive.app.flight.passenger.domain.ports;
 
-import com.gc.reactive.app.flight.flight.infrastructure.entities.FlightJpaEntity;
+import com.gc.reactive.app.flight.flight.infrastructure.persistence.flight.FlightJpaEntity;
 import com.gc.reactive.app.flight.passenger.infrastructure.entities.PassengerJpaEntity;
 
 public interface PassengerService

@@ -2,11 +2,13 @@ package com.gc.reactive.app.flight.booking.infrastructure.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,11 +23,14 @@ public class HttpSecurityConf
     {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizationConfig -> authorizationConfig
-                        .anyRequest().authenticated()
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .oauth2ResourceServer((resourceConfig) -> resourceConfig
-                        .jwt(Customizer.withDefaults())
+                .authorizeHttpRequests(requestAuthorization -> requestAuthorization
+                        .requestMatchers(HttpMethod.POST, "/api/v1/flights").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/flights/test").hasRole("CUSTOMER")
+                        .anyRequest().denyAll()
                 );
 
         return http.build();

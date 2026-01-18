@@ -1,12 +1,10 @@
-package com.gc.reactive.app.flight.flight.infrastructure.entities;
+package com.gc.reactive.app.flight.flight.infrastructure.persistence.flight;
 
 
+import com.gc.reactive.app.flight.flight.infrastructure.persistence.segments.FlightSegmentJpaEntity;
+import com.gc.reactive.app.flight.flight.utils.enums.FlightStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;

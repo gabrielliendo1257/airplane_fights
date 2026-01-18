@@ -2,7 +2,7 @@ package com.gc.reactive.app.flight.flight.domain.models;
 
 import com.gc.reactive.app.flight.flight.domain.vos.FlightNumber;
 import com.gc.reactive.app.flight.flight.domain.vos.FlightSegmentData;
-import com.gc.reactive.app.flight.flight.infrastructure.entities.FlightStatus;
+import com.gc.reactive.app.flight.flight.utils.enums.FlightStatus;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

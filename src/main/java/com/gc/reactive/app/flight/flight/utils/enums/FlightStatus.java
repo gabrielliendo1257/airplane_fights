@@ -1,4 +1,4 @@
-package com.gc.reactive.app.flight.flight.infrastructure.entities;
+package com.gc.reactive.app.flight.flight.utils.enums;
 
 public enum FlightStatus
 {

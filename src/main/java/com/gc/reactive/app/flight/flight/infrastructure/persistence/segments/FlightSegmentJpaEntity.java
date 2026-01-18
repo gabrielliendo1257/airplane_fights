@@ -1,8 +1,8 @@
-package com.gc.reactive.app.flight.flight.infrastructure.entities;
+package com.gc.reactive.app.flight.flight.infrastructure.persistence.segments;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
+import com.gc.reactive.app.flight.flight.infrastructure.persistence.flight.FlightJpaEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,11 +35,9 @@ public class FlightSegmentJpaEntity
     @ManyToOne(fetch = FetchType.LAZY)
     private FlightJpaEntity flight;
 
-    @ManyToOne
-    private AirportJpaEntity origin;
+    private String airportNameOrigin;
 
-    @ManyToOne
-    private AirportJpaEntity destination;
+    private String airportNameDestination;
 
     private LocalDateTime departureTime;
 

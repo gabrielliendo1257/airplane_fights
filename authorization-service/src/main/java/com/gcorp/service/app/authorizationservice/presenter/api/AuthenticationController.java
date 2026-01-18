@@ -11,11 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -26,7 +22,11 @@ public class AuthenticationController
     private final CodeExchangeUseCase codeExchangeUseCase;
     private final RefreshAuthUseCase refreshAuthUseCase;
 
-    public AuthenticationController(CookieFactory cookieFactory, CodeExchangeUseCase codeExchangeUseCase, RefreshAuthUseCase refreshAuthUseCase)
+    public AuthenticationController(
+            CookieFactory cookieFactory,
+            CodeExchangeUseCase codeExchangeUseCase,
+            RefreshAuthUseCase refreshAuthUseCase
+    )
     {
         this.cookieFactory = cookieFactory;
         this.codeExchangeUseCase = codeExchangeUseCase;

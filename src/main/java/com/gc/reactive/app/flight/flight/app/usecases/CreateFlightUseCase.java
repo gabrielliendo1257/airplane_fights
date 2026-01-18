@@ -3,13 +3,13 @@ package com.gc.reactive.app.flight.flight.app.usecases;
 import com.gc.reactive.app.flight.flight.app.commands.CreateFlightCommand;
 import com.gc.reactive.app.flight.flight.app.response.ApiResponse;
 import com.gc.reactive.app.flight.flight.app.response.CreateFlightResponse;
+import com.gc.reactive.app.flight.flight.app.response.ItineraryPublicationResult;
 import com.gc.reactive.app.flight.flight.domain.models.Flight;
 import com.gc.reactive.app.flight.flight.domain.ports.FlightRepository;
 import com.gc.reactive.app.flight.flight.domain.ports.ItineraryQueryPort;
 import com.gc.reactive.app.flight.flight.domain.vos.FlightNumber;
-import com.gc.reactive.app.flight.flight.infrastructure.entities.FlightStatus;
-import com.gc.reactive.app.flight.flight.infrastructure.itinerary.client.AddFlightToItineraryDto;
-import com.gc.reactive.app.flight.flight.infrastructure.itinerary.client.ItineraryResponseDto;
+import com.gc.reactive.app.flight.flight.utils.enums.FlightStatus;
+import com.gc.reactive.app.flight.flight.app.commands.PublishFlightToItineraryCommand;
 
 public class CreateFlightUseCase
 {
@@ -33,19 +33,19 @@ public class CreateFlightUseCase
 
         Flight createdFlight = this.flightRepository.save(flight);
 
-        AddFlightToItineraryDto commandDto = new AddFlightToItineraryDto(
+        PublishFlightToItineraryCommand commandDto = new PublishFlightToItineraryCommand(
                 createdFlight.getId(),
                 createdFlight.getSegments()
         );
 
-        ItineraryResponseDto itineraryResponse = this.itineraryQueryPort.publishFlight(commandDto);
+        ItineraryPublicationResult itineraryPublicationResult = this.itineraryQueryPort.publishFlight(commandDto);
 
         return new ApiResponse<>(
                 true,
                 new CreateFlightResponse(
-                        itineraryResponse.itineraryId(),
+                        itineraryPublicationResult.itineraryId(),
                         createdFlight.getNumber().flightNumber(),
-                        itineraryResponse.segments()
+                        itineraryPublicationResult.segments()
                 ),
                 null
         );

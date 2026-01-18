@@ -6,8 +6,8 @@ spring:
           issuer-uri: http://localhost:9090
 
   datasource:
-    username: admin
-    password: admin
+    username: adminuser
+    password: adminpassword
     url: jdbc:postgresql://localhost:5432/providers_db
 
   jpa:
