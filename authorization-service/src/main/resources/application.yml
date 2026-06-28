@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: piter
-    password: piter
-    url: jdbc:h2:mem:customers_test_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: admin
+    password: admin123
+    url: jdbc:h2:mem:authorization_service_dev;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
   h2:
     console:
@@ -15,26 +15,33 @@ spring:
     defer-datasource-initialization: true
 
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
 logging:
   level:
     root: info
-    org.springframework.web: info
+    org.springframework.web: debug
     org.springframework.security: debug
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: trace
     org.springframework.security.oauth2: debug
     org.springframework.data.redis: debug
+    jakarta.jms: debug
 
 authorization:
   env:
-    frontend:
-      host: "http://127.0.0.1:4200"
     oauth2:
-      redirect: ${authorization.env.frontend.host}/callback
-      logout-redirect: ${authorization.env.frontend.host}/home
-    jwk:
-      uri: "${authorization.env.api.public-url}/oauth2/jwks"
+      client-id: "movie-bff"
+      client-password: "super-secret"
+      redirect: "lb://bff-web-client/login/oauth2/code/flight"
+      logout-redirect: http://127.0.0.1:4200/home
+    # jwk:
+    #   uri: "lb://authorization-service/oauth2/jwks"
     api:
       path-base: /api/v1/authorization
-      public-url: "http://localhost:${server.port}"
 
 server:
+  host: 127.0.0.1
   port: 9090
