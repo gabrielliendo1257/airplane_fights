@@ -1,8 +1,9 @@
 package com.gcorp.service.app.authorizationservice.infrastructure.security.props;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+
+import lombok.Getter;
 
 @Getter
 @Configuration
@@ -15,8 +16,8 @@ public class OAuth2PropertiesConfig
     private String oauth2LogOutRedirect;
 
     @Value("${authorization.env.oauth2.client-id}")
-    private String frontClientId;
+    private String oauth2ClientId;
 
     @Value("${authorization.env.oauth2.client-password}")
-    private String frontClientSecret;
+    private String oauth2ClientSecret;
 }

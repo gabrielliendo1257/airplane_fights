@@ -1,7 +1,8 @@
 package com.gcorp.service.app.authorizationservice.infrastructure.security;
 
 import java.time.Duration;
-import java.util.UUID;
+
+import com.gcorp.service.app.authorizationservice.infrastructure.security.props.OAuth2PropertiesConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,8 +27,6 @@ import org.springframework.security.oauth2.server.authorization.settings.TokenSe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
-
-import com.gcorp.service.app.authorizationservice.infrastructure.security.props.OAuth2PropertiesConfig;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -74,13 +73,14 @@ public class OAuth2AuthorizationConfig {
             "Oauth2 redirect: {}",
             this.oauth2PropertiesConfig.getOauth2Redirect()
         );
+        log.info("oautg2 logout tedirect: {}", this.oauth2PropertiesConfig.getOauth2LogOutRedirect());
         var registeredClient = RegisteredClient.withId(
             "movie-app"
         )
-            .clientId(this.oauth2PropertiesConfig.getFrontClientId())
+            .clientId(this.oauth2PropertiesConfig.getOauth2ClientId())
             .clientSecret(
                 passwordEncoder.encode(
-                    this.oauth2PropertiesConfig.getFrontClientSecret()
+                    this.oauth2PropertiesConfig.getOauth2ClientSecret()
                 )
             )
             .scope(OidcScopes.PROFILE)
