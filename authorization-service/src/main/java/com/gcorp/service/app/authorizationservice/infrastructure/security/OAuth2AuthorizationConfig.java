@@ -1,7 +1,8 @@
 package com.gcorp.service.app.authorizationservice.infrastructure.security;
 
 import java.time.Duration;
-import java.util.UUID;
+
+import com.gcorp.service.app.authorizationservice.infrastructure.security.props.OAuth2PropertiesConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,8 +27,6 @@ import org.springframework.security.oauth2.server.authorization.settings.TokenSe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
-
-import com.gcorp.service.app.authorizationservice.infrastructure.security.props.OAuth2PropertiesConfig;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +61,7 @@ public class OAuth2AuthorizationConfig {
     RegisteredClientRepository registeredClientRepository(
             PasswordEncoder passwordEncoder) {
         log.info(
+<<<<<<< HEAD
                 "Oauth2 redirect: {}",
                 this.oauth2PropertiesConfig.getOauth2Redirect());
         var registeredClient = RegisteredClient.withId(
@@ -91,6 +91,46 @@ public class OAuth2AuthorizationConfig {
                                 .requireProofKey(true)
                                 .build())
                 .build();
+=======
+            "Oauth2 redirect: {}",
+            this.oauth2PropertiesConfig.getOauth2Redirect()
+        );
+        log.info("oautg2 logout tedirect: {}", this.oauth2PropertiesConfig.getOauth2LogOutRedirect());
+        var registeredClient = RegisteredClient.withId(
+            "movie-app"
+        )
+            .clientId(this.oauth2PropertiesConfig.getOauth2ClientId())
+            .clientSecret(
+                passwordEncoder.encode(
+                    this.oauth2PropertiesConfig.getOauth2ClientSecret()
+                )
+            )
+            .scope(OidcScopes.PROFILE)
+            .scope(OidcScopes.OPENID)
+            .clientAuthenticationMethod(
+                ClientAuthenticationMethod.CLIENT_SECRET_BASIC
+            )
+            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+            .redirectUri(this.oauth2PropertiesConfig.getOauth2Redirect())
+            .postLogoutRedirectUri(
+                this.oauth2PropertiesConfig.getOauth2LogOutRedirect()
+            )
+            .tokenSettings(
+                TokenSettings.builder()
+                    .reuseRefreshTokens(false)
+                    .accessTokenTimeToLive(Duration.ofMinutes(7))
+                    .refreshTokenTimeToLive(Duration.ofDays(5))
+                    .build()
+            )
+            .clientSettings(
+                ClientSettings.builder()
+                    .requireAuthorizationConsent(false)
+                    .requireProofKey(true)
+                    .build()
+            )
+            .build();
+>>>>>>> origin
 
         return new InMemoryRegisteredClientRepository(registeredClient);
     }

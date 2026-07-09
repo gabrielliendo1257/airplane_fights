@@ -4,6 +4,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.gcorp.service.app.authorizationservice.infrastructure.persistence.jpa.customer.CustomerEntity;
+import com.gcorp.service.app.authorizationservice.infrastructure.persistence.jpa.customer.CustomerMapper;
+import com.gcorp.service.app.authorizationservice.infrastructure.persistence.jpa.customer.CustomerRepository;
+import com.gcorp.service.app.authorizationservice.models.Authorization;
+import com.gcorp.service.app.authorizationservice.models.CustomerSecurity;
+import com.gcorp.service.app.authorizationservice.models.Role;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -31,13 +38,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestTemplate;
 
-import com.gcorp.service.app.authorizationservice.infrastructure.persistence.jpa.customer.CustomerEntity;
-import com.gcorp.service.app.authorizationservice.infrastructure.persistence.jpa.customer.CustomerMapper;
-import com.gcorp.service.app.authorizationservice.infrastructure.persistence.jpa.customer.CustomerRepository;
-import com.gcorp.service.app.authorizationservice.models.Authorization;
-import com.gcorp.service.app.authorizationservice.models.CustomerSecurity;
-import com.gcorp.service.app.authorizationservice.models.Role;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -59,22 +59,22 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // @Bean
-    // @Order(value = 2)
-    // SecurityFilterChain configuration(HttpSecurity http) {
-    //     http.csrf(AbstractHttpConfigurer::disable)
-    //         .oauth2ResourceServer(resourceServer ->
-    //             resourceServer.jwt(jwtConfig ->
-    //                 jwtConfig.jwkSetUri(this.jwkUrl)
-    //             )
-    //         )
-    //         .authorizeHttpRequests(authorize ->
-    //             authorize.anyRequest().authenticated()
-    //         )
-    //         .formLogin(Customizer.withDefaults());
+    @Bean
+    @Order(value = 2)
+    SecurityFilterChain configuration(HttpSecurity http) {
+        http.csrf(AbstractHttpConfigurer::disable)
+            // .oauth2ResourceServer(resourceServer ->
+            //     resourceServer.jwt(jwtConfig ->
+            //         jwtConfig.jwkSetUri(this.jwkUrl)
+            //     )
+            // )
+            .authorizeHttpRequests(authorize ->
+                authorize.anyRequest().authenticated()
+            )
+            .formLogin(Customizer.withDefaults());
 
-    //     return http.build();
-    // }
+        return http.build();
+    }
 
     @Bean
     AuthenticationManager authenticationProvider(
