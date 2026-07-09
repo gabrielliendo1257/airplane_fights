@@ -60,41 +60,6 @@ public class OAuth2AuthorizationConfig {
     @Bean
     RegisteredClientRepository registeredClientRepository(
             PasswordEncoder passwordEncoder) {
-        log.info(
-<<<<<<< HEAD
-                "Oauth2 redirect: {}",
-                this.oauth2PropertiesConfig.getOauth2Redirect());
-        var registeredClient = RegisteredClient.withId(
-                "movie-app")
-                .clientId(this.oauth2PropertiesConfig.getFrontClientId())
-                .clientSecret(
-                        passwordEncoder.encode(
-                                this.oauth2PropertiesConfig.getFrontClientSecret()))
-                .scope(OidcScopes.PROFILE)
-                .scope(OidcScopes.OPENID)
-                .clientAuthenticationMethod(
-                        ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri(this.oauth2PropertiesConfig.getOauth2Redirect())
-                .postLogoutRedirectUri(
-                        this.oauth2PropertiesConfig.getOauth2LogOutRedirect())
-                .tokenSettings(
-                        TokenSettings.builder()
-                                .reuseRefreshTokens(false)
-                                .accessTokenTimeToLive(Duration.ofMinutes(7))
-                                .refreshTokenTimeToLive(Duration.ofDays(5))
-                                .build())
-                .clientSettings(
-                        ClientSettings.builder()
-                                .requireAuthorizationConsent(false)
-                                .requireProofKey(true)
-                                .build())
-                .build();
-=======
-            "Oauth2 redirect: {}",
-            this.oauth2PropertiesConfig.getOauth2Redirect()
-        );
         log.info("oautg2 logout tedirect: {}", this.oauth2PropertiesConfig.getOauth2LogOutRedirect());
         var registeredClient = RegisteredClient.withId(
             "movie-app"
