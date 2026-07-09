@@ -33,6 +33,7 @@ logging:
 authorization:
   env:
     oauth2:
+      registration-id: "movie-app"
       client-id: "movie-bff"
       client-password: "super-secret"
       redirect: "lb://bff-web-client/login/oauth2/code/flight"

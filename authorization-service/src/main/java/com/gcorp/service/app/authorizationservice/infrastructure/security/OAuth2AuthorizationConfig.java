@@ -43,71 +43,54 @@ public class OAuth2AuthorizationConfig {
     @Bean
     @Order(value = Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain oauth2SecurityFilterChain(HttpSecurity http)
-        throws Exception {
-        OAuth2AuthorizationServerConfigurer oAuthorizationServerConfigurer =
-            new OAuth2AuthorizationServerConfigurer();
+            throws Exception {
+        OAuth2AuthorizationServerConfigurer oAuthorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
 
         http.securityMatcher(
-            oAuthorizationServerConfigurer.getEndpointsMatcher()
-        )
-            .exceptionHandling(exceptionConfig ->
-                exceptionConfig.defaultAuthenticationEntryPointFor(
-                    new LoginUrlAuthenticationEntryPoint("/login"),
-                    new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-                )
-            )
-            .with(oAuthorizationServerConfigurer, authorizationServer ->
-                authorizationServer.oidc(Customizer.withDefaults())
-            )
-            .authorizeHttpRequests(authorizeConfig ->
-                authorizeConfig.anyRequest().authenticated()
-            );
+                oAuthorizationServerConfigurer.getEndpointsMatcher())
+                .exceptionHandling(exceptionConfig -> exceptionConfig.defaultAuthenticationEntryPointFor(
+                        new LoginUrlAuthenticationEntryPoint("/login"),
+                        new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
+                .with(oAuthorizationServerConfigurer,
+                        authorizationServer -> authorizationServer.oidc(Customizer.withDefaults()))
+                .authorizeHttpRequests(authorizeConfig -> authorizeConfig.anyRequest().authenticated());
 
         return http.build();
     }
 
     @Bean
     RegisteredClientRepository registeredClientRepository(
-        PasswordEncoder passwordEncoder
-    ) {
+            PasswordEncoder passwordEncoder) {
         log.info(
-            "Oauth2 redirect: {}",
-            this.oauth2PropertiesConfig.getOauth2Redirect()
-        );
+                "Oauth2 redirect: {}",
+                this.oauth2PropertiesConfig.getOauth2Redirect());
         var registeredClient = RegisteredClient.withId(
-            "movie-app"
-        )
-            .clientId(this.oauth2PropertiesConfig.getFrontClientId())
-            .clientSecret(
-                passwordEncoder.encode(
-                    this.oauth2PropertiesConfig.getFrontClientSecret()
-                )
-            )
-            .scope(OidcScopes.PROFILE)
-            .scope(OidcScopes.OPENID)
-            .clientAuthenticationMethod(
-                ClientAuthenticationMethod.CLIENT_SECRET_BASIC
-            )
-            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri(this.oauth2PropertiesConfig.getOauth2Redirect())
-            .postLogoutRedirectUri(
-                this.oauth2PropertiesConfig.getOauth2LogOutRedirect()
-            )
-            .tokenSettings(
-                TokenSettings.builder()
-                    .reuseRefreshTokens(false)
-                    .accessTokenTimeToLive(Duration.ofMinutes(7))
-                    .refreshTokenTimeToLive(Duration.ofDays(5))
-                    .build()
-            )
-            .clientSettings(
-                ClientSettings.builder()
-                    .requireAuthorizationConsent(false)
-                    .requireProofKey(true)
-                    .build()
-            )
-            .build();
+                "movie-app")
+                .clientId(this.oauth2PropertiesConfig.getFrontClientId())
+                .clientSecret(
+                        passwordEncoder.encode(
+                                this.oauth2PropertiesConfig.getFrontClientSecret()))
+                .scope(OidcScopes.PROFILE)
+                .scope(OidcScopes.OPENID)
+                .clientAuthenticationMethod(
+                        ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .redirectUri(this.oauth2PropertiesConfig.getOauth2Redirect())
+                .postLogoutRedirectUri(
+                        this.oauth2PropertiesConfig.getOauth2LogOutRedirect())
+                .tokenSettings(
+                        TokenSettings.builder()
+                                .reuseRefreshTokens(false)
+                                .accessTokenTimeToLive(Duration.ofMinutes(7))
+                                .refreshTokenTimeToLive(Duration.ofDays(5))
+                                .build())
+                .clientSettings(
+                        ClientSettings.builder()
+                                .requireAuthorizationConsent(false)
+                                .requireProofKey(true)
+                                .build())
+                .build();
 
         return new InMemoryRegisteredClientRepository(registeredClient);
     }

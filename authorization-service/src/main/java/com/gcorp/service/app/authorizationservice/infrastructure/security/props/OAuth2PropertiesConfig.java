@@ -6,8 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Getter
 @Configuration
-public class OAuth2PropertiesConfig
-{
+public class OAuth2PropertiesConfig {
     @Value("${authorization.env.oauth2.redirect}")
     private String oauth2Redirect;
 
@@ -19,4 +18,7 @@ public class OAuth2PropertiesConfig
 
     @Value("${authorization.env.oauth2.client-password}")
     private String frontClientSecret;
+
+    @Value("${authorization.env.oauth2.registration-id}")
+    private String registrationId;
 }
